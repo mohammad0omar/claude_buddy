@@ -2,7 +2,7 @@ import { readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { homedir } from 'node:os';
 
-const CONFIG_PATH = join(homedir(), '.claude_buddy.json');
+const CONFIG_PATH = join(homedir(), '.claude-pets.json');
 
 export function loadConfig() {
   if (!existsSync(CONFIG_PATH)) return null;

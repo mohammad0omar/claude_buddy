@@ -34,7 +34,7 @@ function parseArgs(argv) {
 
 function printHelp() {
   console.log(`
-${chalk.bold('claude_buddy')} v${VERSION}
+${chalk.bold('claude-pets')} v${VERSION}
 Customize your Claude Code companion pet.
 
 ${chalk.bold('Commands:')}

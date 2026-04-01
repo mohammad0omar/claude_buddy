@@ -5,7 +5,7 @@ import { findClaudeBinary, findSaltInBinary, patchBinary } from '../system/binar
 export function runApply(flags) {
   const config = loadConfig();
   if (!config?.salt) {
-    if (!flags.silent) console.log(chalk.yellow('No saved pet config. Run claude_buddy first.'));
+    if (!flags.silent) console.log(chalk.yellow('No saved pet config. Run claude-pets first.'));
     return;
   }
 

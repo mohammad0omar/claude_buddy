@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { homedir } from 'node:os';
 
 const SETTINGS_PATH = join(homedir(), '.claude', 'settings.json');
-const HOOK_COMMAND = 'claude_buddy apply --silent';
+const HOOK_COMMAND = 'claude-pets apply --silent';
 
 function loadSettings() {
   if (!existsSync(SETTINGS_PATH)) return {};
