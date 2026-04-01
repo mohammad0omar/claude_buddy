@@ -1,179 +1,138 @@
 # claude-pets
 
-Choose your own Claude Code companion pet. Pick your species, rarity, eyes, hat, and stats — then apply it instantly.
+> Pick your own Claude Code companion. Any species. Any rarity. Your rules.
 
-```
+```bash
 npx claude-pets
 ```
 
-No Bun required. No native addons. Just Node 18+.
+Pure Node.js. No Bun. No native addons. Just Node 18+.
 
-## What it does
+---
 
-Claude Code assigns you a random companion pet based on your account ID. You can't change it through normal means. claude-pets lets you pick exactly the pet you want by finding a salt that produces your desired combination, then patching the Claude Code binary to use it.
+## Why
 
-```
-$ claude-pets current
+Claude Code gives you a random companion pet tied to your account ID. You can't change it. Maybe you got a common duck when you wanted a legendary dragon. Now you don't have to settle.
 
-  Your default pet (original salt)
-
-  GOOSE ★
-
-    Eye: ×   Hat: none
-
-  Stats:
-    DEBUGGING  ███████░░░░░░░░░░░░░ 35
-    PATIENCE   ░░░░░░░░░░░░░░░░░░░░ 1
-    CHAOS      ███░░░░░░░░░░░░░░░░░ 14
-    WISDOM     ████████████░░░░░░░░ 59
-    SNARK      ███░░░░░░░░░░░░░░░░░ 15
-
-$ claude-pets -s dragon -r legendary -e ✦ -t wizard -y
-
-  Searching (estimated ~8640 attempts)...
-  Found in 4231 attempts (892ms)
-
-  DRAGON ★★★★★
-
-    Eye: ✦   Hat: wizard
-
-  Stats:
-    DEBUGGING  ████████████████████ 98
-    ...
-
-  Patched 3 occurrences
-  Done! Launch Claude Code to see your new companion.
-```
-
-## Install
+## Get Started
 
 ```bash
-npx claude-pets          # run directly
-npm install -g claude-pets  # or install globally
+# One command, no install
+npx claude-pets
+
+# Or install globally
+npm install -g claude-pets
 ```
 
-Requires **Node.js 18+**. That's it.
+The interactive mode walks you through everything — species, rarity, eyes, hat, stats, name, personality.
 
-## Commands
+## One-Liners
 
-| Command | What it does |
-|---------|-------------|
-| `claude-pets` | Interactive pet picker (default) |
-| `claude-pets preview` | Browse pets without applying |
-| `claude-pets current` | Show your default + patched pet |
-| `claude-pets apply` | Re-apply saved pet after Claude Code updates |
-| `claude-pets restore` | Restore your original pet + remove hook |
-| `claude-pets rehatch` | Delete companion for a fresh `/buddy` hatch |
-
-## Options
-
-```
--s, --species <name>     duck, goose, blob, cat, dragon, octopus, owl,
-                         penguin, turtle, snail, ghost, axolotl, capybara,
-                         cactus, robot, rabbit, mushroom, chonk
-
--r, --rarity <level>     common (60%), uncommon (25%), rare (10%),
-                         epic (4%), legendary (1%)
-
--e, --eye <char>         · ✦ × ◉ @ °
-
--t, --hat <name>         crown, tophat, propeller, halo, wizard,
-                         beanie, tinyduck (common rarity always gets none)
-
--n, --name <name>        Rename your companion
--p, --personality <desc> Set companion personality description
-
---shiny                  Require shiny variant (~100x longer search)
---peak <stat>            Best stat (DEBUGGING, PATIENCE, CHAOS, WISDOM, SNARK)
---dump <stat>            Worst stat
-
--y, --yes                Skip all confirmation prompts
---no-hook                Don't offer to install the auto-patch hook
---silent                 Suppress output (for apply command in hooks)
-```
-
-## Quick Templates
-
-Copy-paste one of these to get a specific pet instantly:
+Don't want the wizard? Grab your pet in one shot:
 
 ```bash
-# Legendary dragon with wizard hat and star eyes
+# Legendary dragon, wizard hat, star eyes
 claude-pets -s dragon -r legendary -e ✦ -t wizard -y
 
-# Epic cat with halo and circle eyes
+# Epic cat with halo
 claude-pets -s cat -r epic -e ◉ -t halo -y
 
-# Rare ghost with crown and dot eyes
+# Rare ghost with crown
 claude-pets -s ghost -r rare -e · -t crown -y
 
-# Legendary axolotl with tinyduck hat
-claude-pets -s axolotl -r legendary -e ° -t tinyduck -y
-
-# Epic robot with tophat and x eyes
-claude-pets -s robot -r epic -e × -t tophat -y
-
-# Legendary octopus with propeller hat (shiny!)
+# Shiny legendary octopus (takes ~30-60s)
 claude-pets -s octopus -r legendary -e ✦ -t propeller --shiny -y
 
-# Rare capybara with beanie and at eyes
-claude-pets -s capybara -r rare -e @ -t beanie -y
-
-# Common duck (no hat, fastest search)
+# Common duck (instant)
 claude-pets -s duck -r common -e · -y
 ```
 
-**Search times:** Common combos take <1 second. Legendary takes a few seconds. Adding `--shiny` takes 30-60 seconds.
+## What You Can Pick
 
-## Examples
+**18 Species**
+`duck` `goose` `blob` `cat` `dragon` `octopus` `owl` `penguin` `turtle` `snail` `ghost` `axolotl` `capybara` `cactus` `robot` `rabbit` `mushroom` `chonk`
 
-```bash
-# Interactive — walks you through everything
-claude-pets
+**5 Rarities**
 
-# Preview without applying
-claude-pets preview -s cat -r epic
+| Rarity | Chance | Stat Floor |
+|--------|--------|------------|
+| Common | 60% | 5 |
+| Uncommon | 25% | 15 |
+| Rare | 10% | 25 |
+| Epic | 4% | 35 |
+| Legendary | 1% | 50 |
 
-# See what you have now
-claude-pets current
+**6 Eyes** &mdash; `·` `✦` `×` `◉` `@` `°`
 
-# After a Claude Code update
-claude-pets apply
+**8 Hats** &mdash; `crown` `tophat` `propeller` `halo` `wizard` `beanie` `tinyduck` `none`
 
-# Go back to your original pet
-claude-pets restore
+**5 Stats** &mdash; DEBUGGING, PATIENCE, CHAOS, WISDOM, SNARK
+
+**Shiny variants** &mdash; 1% chance per roll. Add `--shiny` to require one.
+
+## Commands
+
+```
+claude-pets              Interactive pet picker (default)
+claude-pets preview      Browse pets without applying
+claude-pets current      Show your default + active pet
+claude-pets apply        Re-apply after Claude Code updates
+claude-pets restore      Undo everything, back to original
+claude-pets rehatch      Delete companion for a fresh /buddy
 ```
 
-## Auto-patch hook
+## All Flags
 
-Claude Code updates can reset your pet. During setup, claude-pets offers to install a `SessionStart` hook that re-applies your pet automatically (~50ms overhead). You can also install it manually:
-
-```bash
-claude-pets apply --silent  # what the hook runs
+```
+-s, --species <name>     Pick species
+-r, --rarity <level>     Pick rarity
+-e, --eye <char>         Pick eye style
+-t, --hat <name>         Pick hat
+-n, --name <name>        Rename companion
+-p, --personality <desc> Set personality (fixes species mismatch)
+--shiny                  Require shiny (~100x longer search)
+--peak <stat>            Choose best stat
+--dump <stat>            Choose worst stat
+-y, --yes                Skip all prompts
+--no-hook                Skip auto-patch hook offer
+--silent                 No output (for hooks)
 ```
 
-To remove the hook:
+## Survives Updates
+
+Claude Code updates overwrite the binary. claude-pets can install a `SessionStart` hook that re-patches automatically (~50ms, you won't notice):
 
 ```bash
-claude-pets restore
+# The hook runs this on every session start
+claude-pets apply --silent
 ```
 
-## How it works
+Remove it anytime with `claude-pets restore`.
 
-1. **Generates your pet** using the same algorithm as Claude Code — wyhash + Mulberry32 PRNG seeded from `userId + salt`
-2. **Brute-forces a salt** that produces your desired species/rarity/eye/hat combination using `worker_threads`
-3. **Patches the Claude Code binary** by replacing the salt string at all occurrences (same length, no offset shifts)
-4. **Re-signs the binary** on macOS with `codesign --force --sign -`
-5. **Backs up** the original binary before the first patch
+## How It Works
 
-The wyhash implementation is pure JavaScript (BigInt arithmetic), tested against Bun.hash() with 25 fixture pairs for bit-exact parity. No Bun dependency needed.
+1. Hashes `userId + salt` with wyhash (same algorithm as Claude Code)
+2. Feeds the hash into Mulberry32 PRNG to roll species/rarity/eye/hat/stats
+3. Brute-forces random salts until one produces your desired combo
+4. Patches the Claude Code binary — replaces the salt at all occurrences
+5. Re-signs on macOS, backs up the original first
+
+The wyhash is implemented in pure JavaScript using BigInt, verified against 25 Bun.hash() fixtures for bit-exact output. Search runs on `worker_threads` for parallel speed.
 
 ## Safety
 
-- Creates a backup of the Claude Code binary before patching (`<binary>.claude-pets-bak`)
-- Uses atomic file writes (temp file + rename) so the binary is never in a half-written state
-- Verification step confirms the new salt is present at all expected offsets
-- `claude-pets restore` always works — patches back to the original salt
-- The backup file is never deleted automatically
+- Backs up the binary before first patch (`<binary>.claude-pets-bak`)
+- Atomic writes — temp file + rename, never half-written
+- Verifies patch by re-reading the binary after write
+- `claude-pets restore` always works
+- Backup is never auto-deleted
+
+## Requirements
+
+- Node.js 18+
+- Claude Code installed
+
+That's it. No Bun, no native dependencies, no build step.
 
 ## License
 
