@@ -7,7 +7,8 @@ import { removeHook, isHookInstalled } from '../system/hooks.mjs';
 export function runRestore() {
   const binaryPath = findClaudeBinary();
   const config = loadConfig();
-  const { salt: currentSalt } = findSaltInBinary(binaryPath);
+  const knownSalts = [config?.salt, config?.previousSalt];
+  const { salt: currentSalt } = findSaltInBinary(binaryPath, knownSalts);
 
   if (currentSalt === ORIGINAL_SALT) {
     console.log(chalk.dim('Binary already has the original salt.'));

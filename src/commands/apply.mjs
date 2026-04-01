@@ -10,7 +10,8 @@ export function runApply(flags) {
   }
 
   const binaryPath = findClaudeBinary();
-  const { salt: currentSalt } = findSaltInBinary(binaryPath);
+  const knownSalts = [config.salt, config.previousSalt];
+  const { salt: currentSalt } = findSaltInBinary(binaryPath, knownSalts);
 
   if (currentSalt === config.salt) {
     if (!flags.silent) console.log(chalk.dim('Already patched with your pet.'));

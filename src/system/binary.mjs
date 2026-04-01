@@ -63,12 +63,24 @@ function resolveRealBinary(path) {
   }
 }
 
-export function findSaltInBinary(binaryPath) {
+export function findSaltInBinary(binaryPath, knownSalts = []) {
   const buf = readFileSync(binaryPath);
+
+  // Check original salt first
   const origOffsets = findAllOccurrences(buf, ORIGINAL_SALT);
   if (origOffsets.length >= 3) {
     return { salt: ORIGINAL_SALT, patched: false, offsets: origOffsets };
   }
+
+  // Check known salts from saved configs
+  for (const salt of knownSalts) {
+    if (!salt || salt === ORIGINAL_SALT) continue;
+    const offsets = findAllOccurrences(buf, salt);
+    if (offsets.length >= 3) {
+      return { salt, patched: true, offsets };
+    }
+  }
+
   return { salt: null, patched: true, offsets: origOffsets };
 }
 

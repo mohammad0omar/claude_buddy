@@ -1,13 +1,18 @@
 {
-  "name": "claude-pet",
+  "name": "@mohammad0omar/claude-pet",
   "version": "0.1.0",
   "description": "Customize your Claude Code companion pet",
   "type": "module",
   "bin": {
     "claude-pet": "./bin/cli.mjs"
   },
-  "files": ["bin/", "src/"],
-  "engines": { "node": ">=18" },
+  "files": [
+    "bin/",
+    "src/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "@inquirer/prompts": "^7.0.0",
     "chalk": "^5.3.0"

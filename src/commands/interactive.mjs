@@ -71,7 +71,20 @@ export async function runInteractive(flags) {
   const newPet = rollPet(userId, result.salt);
   showPet(newPet, 'Your new pet');
 
-  const { salt: currentSalt } = findSaltInBinary(binaryPath);
+  // Collect known salts from our config and other tools' configs
+  const knownSalts = [config?.salt, config?.previousSalt];
+  try {
+    const { readFileSync, existsSync } = await import('node:fs');
+    const { join } = await import('node:path');
+    const { homedir } = await import('node:os');
+    const otherConfig = join(homedir(), '.claude-code-any-buddy.json');
+    if (existsSync(otherConfig)) {
+      const other = JSON.parse(readFileSync(otherConfig, 'utf-8'));
+      knownSalts.push(other.salt, other.previousSalt);
+    }
+  } catch { /* ignore */ }
+
+  const { salt: currentSalt } = findSaltInBinary(binaryPath, knownSalts);
   const oldSalt = currentSalt ?? config?.salt ?? ORIGINAL_SALT;
   const patchResult = patchBinary(binaryPath, oldSalt, result.salt);
 
