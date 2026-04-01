@@ -1,4 +1,4 @@
-# claude-buddy Implementation Plan
+# claude-pet Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -21,12 +21,12 @@
 
 ```json
 {
-  "name": "claude-buddy",
+  "name": "claude-pet",
   "version": "0.1.0",
   "description": "Customize your Claude Code companion pet",
   "type": "module",
   "bin": {
-    "claude-buddy": "./bin/cli.mjs"
+    "claude-pet": "./bin/cli.mjs"
   },
   "files": ["bin/", "src/"],
   "engines": { "node": ">=18" },
@@ -97,14 +97,14 @@ import { SPECIES, RARITIES, EYES, HATS } from '../src/core/constants.mjs';
 const args = process.argv.slice(2);
 const command = args.find(a => !a.startsWith('-')) ?? 'interactive';
 
-console.log(`claude-buddy v0.1.0`);
+console.log(`claude-pet v0.1.0`);
 console.log(`Command: ${command}`);
 console.log(`Species: ${SPECIES.length}, Rarities: ${RARITIES.length}, Eyes: ${EYES.length}, Hats: ${HATS.length}`);
 ```
 
 - [ ] **Step 4: Install dependencies and verify**
 
-Run: `cd /Users/mohammad/Desktop/claude-buddy && npm install`
+Run: `cd /Users/mohammad/Desktop/claude-pet && npm install`
 Then: `node bin/cli.mjs`
 Expected: Prints version, command, and counts (18 species, 5 rarities, 6 eyes, 8 hats)
 
@@ -1022,7 +1022,7 @@ import { readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { homedir } from 'node:os';
 
-const CONFIG_PATH = join(homedir(), '.claude-buddy.json');
+const CONFIG_PATH = join(homedir(), '.claude-pet.json');
 
 export function loadConfig() {
   if (!existsSync(CONFIG_PATH)) return null;
@@ -1046,7 +1046,7 @@ export function configPath() {
 
 ```bash
 git add src/system/config.mjs
-git commit -m "feat: pet config manager (~/.claude-buddy.json)"
+git commit -m "feat: pet config manager (~/.claude-pet.json)"
 ```
 
 ---
@@ -1151,7 +1151,7 @@ export function patchBinary(binaryPath, oldSalt, newSalt) {
   }
 
   // Create backup (first time only)
-  const backupPath = binaryPath + '.claude-buddy-bak';
+  const backupPath = binaryPath + '.claude-pet-bak';
   if (!existsSync(backupPath)) {
     copyFileSync(binaryPath, backupPath);
   }
@@ -1163,7 +1163,7 @@ export function patchBinary(binaryPath, oldSalt, newSalt) {
   }
 
   // Atomic write: temp file → rename
-  const tmpPath = binaryPath + '.claude-buddy-tmp';
+  const tmpPath = binaryPath + '.claude-pet-tmp';
   try {
     writeFileSync(tmpPath, buf);
     if (!IS_WIN) chmodSync(tmpPath, statSync(binaryPath).mode);
@@ -1248,7 +1248,7 @@ import { join } from 'node:path';
 import { homedir } from 'node:os';
 
 const SETTINGS_PATH = join(homedir(), '.claude', 'settings.json');
-const HOOK_COMMAND = 'claude-buddy apply --silent';
+const HOOK_COMMAND = 'claude-pet apply --silent';
 
 function loadSettings() {
   if (!existsSync(SETTINGS_PATH)) return {};
@@ -1678,7 +1678,7 @@ import { findClaudeBinary, findSaltInBinary, patchBinary } from '../system/binar
 export function runApply(flags) {
   const config = loadConfig();
   if (!config?.salt) {
-    if (!flags.silent) console.log(chalk.yellow('No saved pet config. Run claude-buddy first.'));
+    if (!flags.silent) console.log(chalk.yellow('No saved pet config. Run claude-pet first.'));
     return;
   }
 
@@ -1850,7 +1850,7 @@ function parseArgs(argv) {
 
 function printHelp() {
   console.log(`
-${chalk.bold('claude-buddy')} v${VERSION}
+${chalk.bold('claude-pet')} v${VERSION}
 Customize your Claude Code companion pet.
 
 ${chalk.bold('Commands:')}
@@ -2000,7 +2000,7 @@ Read `package.json` and ensure `"bin"`, `"files"`, `"engines"`, and `"type": "mo
 
 - [ ] **Step 3: Test with npx locally**
 
-Run: `npm link && npx claude-buddy --version`
+Run: `npm link && npx claude-pet --version`
 Expected: `0.1.0`
 
 - [ ] **Step 4: Commit**
